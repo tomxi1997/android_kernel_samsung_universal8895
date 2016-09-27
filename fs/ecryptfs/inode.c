@@ -902,7 +902,8 @@ out:
 
 static int
 ecryptfs_rename(struct inode *old_dir, struct dentry *old_dentry,
-		struct inode *new_dir, struct dentry *new_dentry)
+		struct inode *new_dir, struct dentry *new_dentry,
+		unsigned int flags)
 {
 	int rc;
 	struct dentry *lower_old_dentry;
@@ -926,6 +927,9 @@ ecryptfs_rename(struct inode *old_dir, struct dentry *old_dentry,
 	        &(ecryptfs_inode_to_private(new_dentry->d_parent->d_inode)->crypt_stat);
 	struct ecryptfs_mount_crypt_stat *mount_crypt_stat =
 	        &ecryptfs_superblock_to_private(old_dentry->d_sb)->mount_crypt_stat;
+
+	if (flags)
+		return -EINVAL;
 
 #if ECRYPTFS_SDP_RENAME_DEBUG
 	printk("You're renaming %s to %s\n",
@@ -1636,7 +1640,7 @@ const struct inode_operations ecryptfs_dir_iops = {
 	.mkdir = ecryptfs_mkdir,
 	.rmdir = ecryptfs_rmdir,
 	.mknod = ecryptfs_mknod,
-	.rename = ecryptfs_rename,
+	.rename2 = ecryptfs_rename,
 	.permission = ecryptfs_permission,
 	.setattr = ecryptfs_setattr,
 	.getattr = ecryptfs_getattr,
