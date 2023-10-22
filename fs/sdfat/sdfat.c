@@ -183,7 +183,6 @@ static inline void __sdfat_clean_bdev_aliases(struct block_device *bdev, sector_
 #endif
 
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 9, 0)
 static int sdfat_rename(struct inode *old_dir, struct dentry *old_dentry,
 		struct inode *new_dir, struct dentry *new_dentry,
 		unsigned int flags)
@@ -197,13 +196,8 @@ static int sdfat_rename(struct inode *old_dir, struct dentry *old_dentry,
 		return -EINVAL;
 	return __sdfat_rename(old_dir, old_dentry, new_dir, new_dentry);
 }
-#else /* LINUX_VERSION_CODE < KERNEL_VERSION(4, 9, 0) */
-static int sdfat_rename(struct inode *old_dir, struct dentry *old_dentry,
-		struct inode *new_dir, struct dentry *new_dentry)
-{
-	return __sdfat_rename(old_dir, old_dentry, new_dir, new_dentry);
-}
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 9, 0)
 static int setattr_prepare(struct dentry *dentry, struct iattr *attr)
 {
 	struct inode *inode = dentry->d_inode;
