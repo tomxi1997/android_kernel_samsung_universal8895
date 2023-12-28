@@ -73,15 +73,15 @@ jobs:
     - name: Build LXC-Kernel-SU
       run: |
         export PATH=$(pwd)/clang-aosp/clang/host/linux-x86/clang-r428724/bin:$(pwd)/clang-aosp/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin:$(pwd)/clang-aosp/gcc/linux-x86/arm/arm-linux-androideabi-4.9/bin:$PATH
-        git clone -b android-11-lxc https://github.com/tomxi1997/android_kernel_samsung_sm8150.git A11 --depth=1
-        cd A11
+        git clone -b lineage-20.0-lxc_support https://github.com/tomxi1997/android_kernel_samsung_universal8895.git note8 --depth=1
+        cd note8
         export GKI_ROOT=$(pwd)
         export DRIVER_DIR="$GKI_ROOT/drivers"
         export DRIVER_MAKEFILE=$DRIVER_DIR/Makefile
         git clone -b main https://github.com/tiann/KernelSU.git KernelSU
         ln -sf "$GKI_ROOT/KernelSU/kernel" "$DRIVER_DIR/kernelsu"
         sed -i '$a\obj-y += kernelsu/' "$DRIVER_MAKEFILE"
-        make $KERNEL_CMDLINE s10_kernelsu_lxc_hid_defconfig CC="ccache clang"
+        make $KERNEL_CMDLINE exynos8895-greatlte_lxc_defconfig CC="ccache clang"
         make $KERNEL_CMDLINE CC="ccache clang" -j$(nproc --all)
         cp out/arch/arm64/boot/Image.gz ../AnyKernel3
       
@@ -89,5 +89,5 @@ jobs:
     - name: Upload Kernel
       uses: actions/upload-artifact@v3
       with:
-        name: kernel-kernelsu-lxc-${{ steps.get_time.outputs.TIME }}
+        name: kernel-kernelsu-lxc-lineage-20.0-greatlte-${{ steps.get_time.outputs.TIME }}
         path: "AnyKernel3/*"
