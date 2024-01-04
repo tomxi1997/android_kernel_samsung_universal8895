@@ -84,7 +84,9 @@ jobs:
         #make $KERNEL_CMDLINE exynos8895-greatlte_lxc_defconfig CC="ccache clang"
         make $KERNEL_CMDLINE CC="ccache clang" note8_lxc_defconfig
         make $KERNEL_CMDLINE CC="ccache clang" -j$(nproc --all)
+        rm -rf ../AnyKernel3/Image.gz
         cp out/arch/arm64/boot/Image.gz ../AnyKernel3
+        cd ..
       
 
     - name: Upload Kernel
