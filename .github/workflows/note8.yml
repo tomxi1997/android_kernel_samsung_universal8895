@@ -78,6 +78,7 @@ jobs:
         export GKI_ROOT=$(pwd)
         export DRIVER_DIR="$GKI_ROOT/drivers"
         export DRIVER_MAKEFILE=$DRIVER_DIR/Makefile
+        export KERNEL_DEFCONFIG=
         git clone -b main https://github.com/tiann/KernelSU.git KernelSU
         ln -sf "$GKI_ROOT/KernelSU/kernel" "$DRIVER_DIR/kernelsu"
         sed -i '$a\obj-y += kernelsu/' "$DRIVER_MAKEFILE"
